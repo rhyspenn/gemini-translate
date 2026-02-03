@@ -1,4 +1,8 @@
 # Google Gemini 翻译插件
+[![GitHub release](https://img.shields.io/github/v/release/rhyspenn/gemini-translate)](https://github.com/rhyspenn/gemini-translate/releases)
+[![GitHub downloads](https://img.shields.io/github/downloads/rhyspenn/gemini-translate/total)](https://github.com/rhyspenn/gemini-translate/releases)
+[![License](https://img.shields.io/github/license/rhyspenn/gemini-translate)](https://github.com/rhyspenn/gemini-translate/blob/main/LICENSE)
+[![GitHub Actions](https://github.com/rhyspenn/gemini-translate/actions/workflows/release.yml/badge.svg)](https://github.com/rhyspenn/gemini-translate/actions)
 
 这是一个支持 Google Gemini API 格式的 Bob 翻译插件，可使用 Gemini 模型进行高质量文本翻译。
 
