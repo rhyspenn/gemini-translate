@@ -1,6 +1,6 @@
 {
     "identifier": "com.rhyspenn.gemini-translate",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "category": "translate",
     "name": "Google Gemini 翻译",
     "summary": "支持 Google Gemini API 的高质量文本翻译插件（默认 gemini-2.5-flash-lite）",
