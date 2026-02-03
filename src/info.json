@@ -1,0 +1,68 @@
+{
+    "identifier": "com.rhyspenn.gemini-translate",
+    "version": "1.0.0",
+    "category": "translate",
+    "name": "Google Gemini 翻译",
+    "summary": "支持 Google Gemini API 的高质量文本翻译插件（默认 gemini-2.5-flash-lite）",
+    "icon": "",
+    "author": "Rhys",
+    "homepage": "",
+    "appcast": "",
+    "minBobVersion": "0.5.0",
+    "options": [
+        {
+            "identifier": "baseUrl",
+            "type": "text",
+            "title": "API Base URL",
+            "desc": "Gemini API 基础地址，如：https://generativelanguage.googleapis.com/v1beta",
+            "textConfig": {
+                "type": "normal",
+                "height": 20,
+                "placeholder": "https://generativelanguage.googleapis.com/v1beta"
+            }
+        },
+        {
+            "identifier": "apiKey",
+            "type": "text",
+            "title": "API Key",
+            "desc": "请输入您的 API 密钥",
+            "textConfig": {
+                "type": "secure",
+                "height": 20
+            }
+        },
+        {
+            "identifier": "model",
+            "type": "text",
+            "title": "模型名称",
+            "desc": "输入要使用的模型名称，如：gemini-2.5-flash-lite、gemini-1.5-pro 等",
+            "textConfig": {
+                "type": "normal",
+                "height": 20,
+                "placeholder": "gemini-2.5-flash-lite"
+            }
+        },
+        {
+            "identifier": "temperature",
+            "type": "text",
+            "title": "Temperature (可选)",
+            "desc": "控制输出随机性，范围 0-2，默认 0.1，值越小翻译越精确",
+            "textConfig": {
+                "type": "normal",
+                "height": 20,
+                "placeholder": "0.1"
+            }
+        },
+        {
+            "identifier": "maxTokens",
+            "type": "text",
+            "title": "Max Output Tokens (可选)",
+            "desc": "最大输出 token 数，留空则自动计算",
+            "textConfig": {
+                "type": "normal",
+                "height": 20,
+                "placeholder": "自动"
+            }
+        }
+    ]
+}

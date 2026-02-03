@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# 临时文件
+*.tmp
+*.temp
+*.bak
+
+# 构建产物（本地构建的插件包，发布时由 CI 自动生成）
+*.bobplugin
+
+# Node.js（如果将来需要）
+node_modules/
+npm-debug.log*

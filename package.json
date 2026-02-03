@@ -1,0 +1,25 @@
+{
+    "name": "gemini-translate",
+    "version": "1.0.0",
+    "description": "Google Gemini 翻译插件 - 支持 Gemini API 格式的 Bob 翻译插件",
+    "main": "src/main.js",
+    "scripts": {
+        "build": "./build.sh",
+        "release": "./release.sh",
+        "test": "node -c src/main.js && echo 'Syntax check passed'"
+    },
+    "keywords": [
+        "bob",
+        "translate",
+        "gemini",
+        "google",
+        "ai",
+        "plugin",
+        "api"
+    ],
+    "author": "Rhys",
+    "license": "MIT",
+    "engines": {
+        "node": ">=14.0.0"
+    }
+}

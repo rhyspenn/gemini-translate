@@ -1,0 +1,92 @@
+name: Build and Release Bob Plugin
+
+on:
+  push:
+    tags:
+      - 'v*'  # 当推送 v* 标签时触发
+  workflow_dispatch:  # 手动触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 允许写入内容（创建发布）
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Get version from info.json
+      id: get_version
+      run: |
+        VERSION=$(grep '"version"' src/info.json | sed 's/.*"version": "\(.*\)".*/\1/')
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Version: $VERSION"
+    
+    - name: Build plugin
+      run: |
+        # 创建插件包（从 src 目录）
+        cd src
+        zip -r ../gemini-translate.bobplugin main.js info.json
+        cd ..
+        
+        # 验证插件包
+        echo "Plugin contents:"
+        unzip -l gemini-translate.bobplugin
+    
+    - name: Calculate SHA256
+      id: sha256
+      run: |
+        SHA256=$(shasum -a 256 gemini-translate.bobplugin | cut -d ' ' -f 1)
+        echo "sha256=$SHA256" >> $GITHUB_OUTPUT
+        echo "SHA256: $SHA256"
+    
+    - name: Update appcast.json
+      run: |
+        # 更新 appcast.json 中的 SHA256
+        VERSION="${{ steps.get_version.outputs.version }}"
+        SHA256="${{ steps.sha256.outputs.sha256 }}"
+        
+        # 使用 jq 更新 appcast.json（如果版本已存在）
+        if command -v jq >/dev/null 2>&1; then
+          jq --arg version "$VERSION" --arg sha256 "$SHA256" \
+            '(.versions[] | select(.version == $version).sha256) = $sha256' \
+            appcast.json > appcast.tmp.json && mv appcast.tmp.json appcast.json
+        fi
+    
+    - name: Create Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        # 创建发布说明
+        cat > release_notes.md << 'EOF'
+        ## Google Gemini 翻译插件 ${{ steps.get_version.outputs.version }}
+        
+        ### 📦 安装方法
+        1. 下载 `gemini-translate.bobplugin` 文件
+        2. 双击安装或在 Bob 中手动导入
+        3. 在插件设置中配置 API 参数
+        
+        ### 🔧 配置说明
+        - **Base URL**: 设置 Gemini API 端点（如 `https://generativelanguage.googleapis.com/v1beta`）
+        - **API Key**: 输入您的 API 密钥
+        - **Model**: 选择模型（默认 `gemini-2.5-flash-lite`）
+        - 支持 Google Gemini API 格式
+        - 支持 35+ 种语言互译
+        
+        ### 🌐 支持的服务
+        - Google Gemini API（Google AI Studio / Generative Language API）
+        
+        ### 📝 更新内容
+        详见 [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)
+        
+        ### 📊 文件信息
+        - **文件名**: gemini-translate.bobplugin
+        - **SHA256**: ${{ steps.sha256.outputs.sha256 }}
+        EOF
+        
+        # 使用 gh CLI 创建发布
+        gh release create ${{ github.ref_name }} \
+          gemini-translate.bobplugin \
+          --title "Release ${{ github.ref_name }}" \
+          --notes-file release_notes.md
